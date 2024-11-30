@@ -2,9 +2,35 @@
   <canvas #canvas></canvas>
 </div>
 
-<div class="controls">
-  <button (click)="setTool('pen')">Pen</button>
-  <button (click)="setTool('eraser')">Eraser</button>
-  <input type="color" (change)="changeColor($event)" />
-  <input type="range" (input)="changeSize($event)" min="1" max="50" />
+<div class="controls flex items-center space-x-4">
+  <!-- دکمه Pen -->
+  <div class="relative group" (mouseenter)="showPenOptions()" (mouseleave)="hidePenOptions()">
+    <button class="p-2 flex items-center">
+      <img src="../../pen.svg" alt="pen">
+    </button>
+
+    <!-- گزینه‌های قلم -->
+    <div
+      *ngIf="penOptionsVisible"
+      class="absolute left-0 top-full mt-1 w-40 flex flex-col bg-white border border-gray-300 rounded shadow-lg p-2 z-10 pen-popup">
+      <button (click)="setPenStyle(2)" class="flex items-center space-x-2 p-1 hover:bg-gray-100 rounded">
+        <img src="../../pen-size-1.svg" alt="pen-size-1">
+        <span class="text-sm">Thin Pen</span>
+      </button>
+      <button (click)="setPenStyle(10)" class="flex items-center space-x-2 p-1 hover:bg-gray-100 rounded">
+        <img src="../../pen-size-3.svg" alt="pen-size-3">
+        <span class="text-sm">Thick Pen</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- دکمه Eraser -->
+  <button (click)="setTool('eraser')" class="p-2 flex items-center">
+    Eraser
+  </button>
+
+  <!-- دکمه Clear Canvas -->
+  <button (click)="clearCanvas()" class="p-2 flex items-center">
+    Clear Canvas
+  </button>
 </div>

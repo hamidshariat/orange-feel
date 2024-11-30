@@ -1,18 +1,21 @@
+import { NgIf } from '@angular/common';
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-editor-text',
   templateUrl: './editor-text.component.html',
   standalone: true,
+  imports: [NgIf],
   styleUrls: ['./editor-text.component.css']
 })
 export class EditorTextComponent implements AfterViewInit {
   @ViewChild('canvas', { static: false }) canvasRef!: ElementRef;
   private ctx!: CanvasRenderingContext2D;
   private isDrawing = false;
-  private tool = 'pen';
+  public tool = 'pen';
   private color = '#000000';
   private size = 5;
+  penOptionsVisible = false;
 
   ngAfterViewInit() {
     this.initCanvas();
@@ -89,5 +92,19 @@ export class EditorTextComponent implements AfterViewInit {
     } else {
       this.ctx.globalCompositeOperation = 'source-over';
     }
+  }
+  clearCanvas(){
+    const canvas = this.canvasRef.nativeElement;
+    this.ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  setPenStyle(size: number) {
+    this.size = size;
+    this.ctx.lineWidth = this.size;
+  }
+  showPenOptions() {
+    this.penOptionsVisible = true;
+  }
+  hidePenOptions() {
+    this.penOptionsVisible = false;
   }
 }
