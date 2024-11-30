@@ -1,0 +1,10 @@
+<div class="drawing-container">
+  <canvas #canvas></canvas>
+</div>
+
+<div class="controls">
+  <button (click)="setTool('pen')">Pen</button>
+  <button (click)="setTool('eraser')">Eraser</button>
+  <input type="color" (change)="changeColor($event)" />
+  <input type="range" (input)="changeSize($event)" min="1" max="50" />
+</div>
