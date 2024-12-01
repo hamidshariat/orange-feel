@@ -4,7 +4,7 @@ import {EditorTextComponent} from '../editor-text/editor-text.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, EditorTextComponent],
+  imports: [ EditorTextComponent],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.css'

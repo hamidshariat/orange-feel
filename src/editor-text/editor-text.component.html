@@ -10,8 +10,8 @@
     </button>
 
     <!-- choice of pen -->
+    @if (penOptionsVisible){
     <div
-      *ngIf="penOptionsVisible"
       class="absolute left-0 top-full mt-1 w-40 flex flex-col bg-white border border-gray-300 rounded shadow-lg p-2 z-10 pen-popup">
       <button (click)="setPenStyle(2)" class="flex items-center space-x-2 p-1 hover:bg-gray-100 rounded">
         <img src="../../pen-size-1.svg" alt="pen-size-1">
@@ -22,6 +22,7 @@
         <span class="text-sm">Thick Pen</span>
       </button>
     </div>
+    }
   </div>
 
   <!-- دکمه Eraser -->
@@ -47,4 +48,5 @@
     min="1"
     max="50"
   />
+</div>
 </div>
