@@ -33,4 +33,18 @@
   <button (click)="clearCanvas()" class="p-2 flex items-center">
     Clear Canvas
   </button>
+<div class="controls">
+  <button (click)="undoLast()">Undo</button>
+  <button (click)="redoLast()" title="Redo">Redo</button>
+  <button (click)="setTool('pen')">Pen</button>
+  <button (click)="setTool('eraser')">Eraser</button>
+  <input type="color" (change)="changeColor($event)" />
+  <input
+    class="pen-range"
+    type="range"
+    [value]="size"
+    (input)="changeSize($event)"
+    min="1"
+    max="50"
+  />
 </div>

@@ -1,11 +1,9 @@
-import { NgIf } from '@angular/common';
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-editor-text',
   templateUrl: './editor-text.component.html',
   standalone: true,
-  imports: [NgIf],
   styleUrls: ['./editor-text.component.css']
 })
 export class EditorTextComponent implements AfterViewInit {
@@ -16,6 +14,8 @@ export class EditorTextComponent implements AfterViewInit {
   private color = '#000000';
   private size = 5;
   penOptionsVisible = false;
+  private restore_array: ImageData[] = [];
+  private index = -1;
 
   ngAfterViewInit() {
     this.initCanvas();
@@ -35,13 +35,17 @@ export class EditorTextComponent implements AfterViewInit {
 
     canvas.addEventListener('mousedown', (e: MouseEvent) => this.startDrawing(e));
     canvas.addEventListener('mousemove', (e: MouseEvent) => this.draw(e));
-    canvas.addEventListener('mouseup', () => this.stopDrawing());
-    canvas.addEventListener('mouseout', () => this.stopDrawing());
+    canvas.addEventListener('mouseup', (e: MouseEvent) => this.stopDrawing(e));
+    canvas.addEventListener('mouseout', (e: MouseEvent) => {
+      if (this.isDrawing) this.stopDrawing(e);
+    });
 
     canvas.addEventListener('touchstart', (e: TouchEvent) => this.startDrawing(e));
     canvas.addEventListener('touchmove', (e: TouchEvent) => this.draw(e));
-    canvas.addEventListener('touchend', () => this.stopDrawing());
-    canvas.addEventListener('touchcancel', () => this.stopDrawing());
+    canvas.addEventListener('touchend', (e: TouchEvent) => this.stopDrawing(e));
+    canvas.addEventListener('touchcancel', (e: TouchEvent) => {
+      if (this.isDrawing) this.stopDrawing(e);
+    });
   }
 
   private startDrawing(event: MouseEvent | TouchEvent) {
@@ -58,10 +62,46 @@ export class EditorTextComponent implements AfterViewInit {
     this.ctx.stroke();
   }
 
-  private stopDrawing() {
+  private stopDrawing(event?: MouseEvent | TouchEvent) {
+    if (!this.isDrawing) return;
     this.isDrawing = false;
     this.ctx.closePath();
+
+    const canvas = this.canvasRef.nativeElement;
+    const imageData = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    if (this.index < this.restore_array.length - 1) {
+      this.restore_array = this.restore_array.slice(0, this.index + 1);
+    }
+
+    this.restore_array.push(imageData);
+    this.index = this.restore_array.length - 1;
   }
+
+  undoLast() {
+    if (this.index > 0) {
+      this.index--;
+      const canvas = this.canvasRef.nativeElement;
+      this.ctx.putImageData(this.restore_array[this.index], 0, 0);
+    } else if (this.index === 0) {
+      this.clearCanvas();
+      this.index = -1;
+    }
+  }
+
+  private clearCanvas() {
+    const canvas = this.canvasRef.nativeElement;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  redoLast() {
+    if (this.index < this.restore_array.length - 1) {
+      this.index++;
+      const canvas = this.canvasRef.nativeElement;
+      this.ctx.putImageData(this.restore_array[this.index], 0, 0);
+    }
+  }
+
 
   private getEventPosition(event: MouseEvent | TouchEvent) {
     const canvas = this.canvasRef.nativeElement;
@@ -92,10 +132,6 @@ export class EditorTextComponent implements AfterViewInit {
     } else {
       this.ctx.globalCompositeOperation = 'source-over';
     }
-  }
-  clearCanvas(){
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx.clearRect(0,0,canvas.width,canvas.height);
   }
   setPenStyle(size: number) {
     this.size = size;
