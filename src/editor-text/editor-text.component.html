@@ -3,13 +3,13 @@
 </div>
 
 <div class="controls flex items-center space-x-4">
-  <!-- دکمه Pen -->
+  <!--  Pen button  -->
   <div class="relative group" (mouseenter)="showPenOptions()" (mouseleave)="hidePenOptions()">
     <button class="p-2 flex items-center">
       <img src="../../pen.svg" alt="pen">
     </button>
 
-    <!-- گزینه‌های قلم -->
+    <!-- choice of pen -->
     <div
       *ngIf="penOptionsVisible"
       class="absolute left-0 top-full mt-1 w-40 flex flex-col bg-white border border-gray-300 rounded shadow-lg p-2 z-10 pen-popup">
