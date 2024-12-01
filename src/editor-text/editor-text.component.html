@@ -1,5 +1,14 @@
 <div class="drawing-container">
-  <canvas #canvas></canvas>
+  <canvas #canvas
+          (mousedown)="startDrawing($event)"
+          (mousemove)="draw($event)"
+          (mouseup)="stopDrawing($event)"
+          (mouseout)="stopDrawing($event)"
+          (touchstart)="startDrawing($event)"
+          (touchmove)="draw($event)"
+          (touchend)="stopDrawing($event)"
+          (touchcancel)="stopDrawing($event)"
+  ></canvas>
 </div>
 
 <div class="controls">
