@@ -1,1 +1,9 @@
-<app-editor-text/>
+<!--<app-editor-text/>-->
+<!-- src/app/app.component.html -->
+<section class="example-section">
+  <mat-slide-toggle
+    [checked]="isDarkTheme"
+    (change)="toggleTheme()">
+  </mat-slide-toggle>
+</section>
+<app-editor/>
