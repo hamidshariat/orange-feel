@@ -1,9 +1,12 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-editor-text',
   templateUrl: './editor-text.component.html',
   standalone: true,
+  imports: [CommonModule,MatIconModule],
   styleUrls: ['./editor-text.component.css']
 })
 export class EditorTextComponent implements AfterViewInit {
@@ -16,6 +19,16 @@ export class EditorTextComponent implements AfterViewInit {
   private restore_array: ImageData[] = [];
   private index = -1;
 
+  penTypes = [
+    { name: 'Pencil', lineWidth: 1, strokeStyle: '#000000', globalAlpha: 1 },
+    { name: 'Marker', lineWidth: 5, strokeStyle: '#000000', globalAlpha: 1 },
+    { name: 'Highlighter', lineWidth: 15, strokeStyle: '#FFFF00', globalAlpha: 0.1 },
+    { name: 'Brush', lineWidth: 10, strokeStyle: '#000000', globalAlpha: 1 },
+  ];
+  selectedPenType = this.penTypes[0];
+
+  isPenDropdownOpen = false;
+
   ngAfterViewInit() {
     this.initCanvas();
   }
@@ -24,8 +37,9 @@ export class EditorTextComponent implements AfterViewInit {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
     if (!this.ctx) return;
-    canvas.width = window.innerWidth - 20;
-    canvas.height = 400;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     this.ctx.lineWidth = this.size;
     this.ctx.lineCap = 'round';
@@ -88,9 +102,15 @@ export class EditorTextComponent implements AfterViewInit {
     }
   }
 
-  private clearCanvas() {
+  clearCanvas() {
     const canvas = this.canvasRef.nativeElement;
+
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const blankImageData = this.ctx.createImageData(canvas.width, canvas.height);
+    if (this.index === this.restore_array.length - 1) {
+      this.restore_array.push(blankImageData);
+      this.index = this.restore_array.length - 1;
+    }
   }
 
   redoLast() {
@@ -100,7 +120,6 @@ export class EditorTextComponent implements AfterViewInit {
       this.ctx.putImageData(this.restore_array[this.index], 0, 0);
     }
   }
-  
 
   private getEventPosition(event: MouseEvent | TouchEvent) {
     const canvas = this.canvasRef.nativeElement;
@@ -123,13 +142,53 @@ export class EditorTextComponent implements AfterViewInit {
     this.ctx.lineWidth = this.size;
   }
 
+  togglePenDropdown() {
+    this.isPenDropdownOpen = !this.isPenDropdownOpen;
+  }
+
   setTool(tool: string) {
     if (!this.ctx) return;
     this.tool = tool;
+  
     if (this.tool === 'eraser') {
       this.ctx.globalCompositeOperation = 'destination-out';
+      this.ctx.lineWidth = 10;
+      this.ctx.globalAlpha = 1;
     } else {
       this.ctx.globalCompositeOperation = 'source-over';
+  
+      this.ctx.lineWidth = this.selectedPenType.lineWidth;
+      this.ctx.strokeStyle = this.selectedPenType.strokeStyle;
+      this.ctx.globalAlpha = this.selectedPenType.globalAlpha;
+  
+      const colorInput: HTMLInputElement | null = document.querySelector('input[type="color"]');
+      if (colorInput) {
+        colorInput.value = this.selectedPenType.strokeStyle;
+      }
     }
   }
+  
+  
+  
+  setPenType(pen: any) {
+    if (!this.ctx) return;
+    this.selectedPenType = pen;
+  
+    this.setTool('pen');
+  
+    this.ctx.lineWidth = pen.lineWidth;
+    this.ctx.strokeStyle = pen.strokeStyle;
+    this.ctx.globalAlpha = pen.globalAlpha;
+  
+    const colorInput: HTMLInputElement | null = document.querySelector('input[type="color"]');
+    if (colorInput) {
+      colorInput.value = pen.strokeStyle;
+    }
+  
+    this.isPenDropdownOpen = false;
+  }
+
+  
+  
+  
 }
