@@ -1,10 +1,28 @@
 <div class="drawing-container">
-  <canvas #canvas></canvas>
+  <canvas #canvas
+          (mousedown)="startDrawing($event)"
+          (mousemove)="draw($event)"
+          (mouseup)="stopDrawing($event)"
+          (mouseout)="stopDrawing($event)"
+          (touchstart)="startDrawing($event)"
+          (touchmove)="draw($event)"
+          (touchend)="stopDrawing($event)"
+          (touchcancel)="stopDrawing($event)"
+  ></canvas>
 </div>
 
 <div class="controls">
+  <button (click)="undoLast()">Undo</button>
+  <button (click)="redoLast()" title="Redo">Redo</button>
   <button (click)="setTool('pen')">Pen</button>
   <button (click)="setTool('eraser')">Eraser</button>
   <input type="color" (change)="changeColor($event)" />
-  <input type="range" (input)="changeSize($event)" min="1" max="50" />
+  <input
+    class="pen-range"
+    type="range"
+    [value]="size"
+    (input)="changeSize($event)"
+    min="1"
+    max="50"
+  />
 </div>

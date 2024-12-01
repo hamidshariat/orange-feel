@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {EditorTextComponent} from '../editor-text/editor-text.component';
-import {EditorComponent} from '../editor/editor.component';
-import {ThemeService} from '../services/themes.service';
-import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, EditorTextComponent, EditorComponent, MatSlideToggle],
+  imports: [RouterOutlet, EditorTextComponent],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.css'
