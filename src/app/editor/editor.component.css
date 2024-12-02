@@ -1,0 +1,27 @@
+.editor-container {
+    margin: 20px;
+  }
+  
+  .toolbar {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .toolbar button,
+  .toolbar select,
+  .toolbar input {
+    margin-right: 10px;
+  }
+  
+  .editor {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 200px;
+    outline: none;
+  }
+  
+  .editor[contenteditable="true"]:empty:before {
+    content: "Start typing here...";
+    color: gray;
+  }
+  
