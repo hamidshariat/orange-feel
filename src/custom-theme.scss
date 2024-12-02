@@ -1,16 +1,39 @@
+// src/styles/theme.scss
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+$light-background: #ffffff;
+$light-text: #333333;
+$light-primary: #6200ea;
+$light-accent: #03dac6;
 
-html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+$dark-background: #121212;
+$dark-text: #ffffff;
+$dark-primary: #bb86fc;
+$dark-accent: #03dac6;
+
+.light-theme {
+  background-color: $light-background;
+  color: $light-text;
+}
+
+.light-theme button {
+  background-color: $light-primary;
+  color: white;
+}
+
+.light-theme button:hover {
+  background-color: darken($light-primary, 10%);
+}
+
+.dark-theme {
+  background-color: $dark-background;
+  color: $dark-text;
+}
+
+.dark-theme button {
+  background-color: $dark-primary;
+  color: white;
+}
+
+.dark-theme button:hover {
+  background-color: darken($dark-primary, 10%);
 }

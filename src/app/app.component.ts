@@ -11,4 +11,19 @@ import {EditorTextComponent} from '../editor-text/editor-text.component';
 })
 export class AppComponent {
   title = 'orange-feel';
+  isDarkTheme: boolean;
+
+  constructor(private themeService: ThemeService) {
+    this.isDarkTheme = this.themeService.getCurrentTheme() === 'dark-theme';
+  }
+
+  // سوئیچ کردن بین تم‌ها
+  toggleTheme() {
+    if (this.isDarkTheme) {
+      this.themeService.switchTheme('light-theme');
+    } else {
+      this.themeService.switchTheme('dark-theme');
+    }
+    this.isDarkTheme = !this.isDarkTheme; // تغییر وضعیت
+  }
 }

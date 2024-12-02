@@ -68,14 +68,14 @@ export class EditorTextComponent implements AfterViewInit {
     this.ctx.moveTo(offsetX, offsetY);
   }
 
-  private draw(event: MouseEvent | TouchEvent) {
+  draw(event: MouseEvent | TouchEvent) {
     if (!this.isDrawing) return;
     const { offsetX, offsetY } = this.getEventPosition(event);
     this.ctx.lineTo(offsetX, offsetY);
     this.ctx.stroke();
   }
 
-  private stopDrawing(event?: MouseEvent | TouchEvent) {
+  stopDrawing(event?: MouseEvent | TouchEvent) {
     if (!this.isDrawing) return;
     this.isDrawing = false;
     this.ctx.closePath();
@@ -94,7 +94,6 @@ export class EditorTextComponent implements AfterViewInit {
   undoLast() {
     if (this.index > 0) {
       this.index--;
-      const canvas = this.canvasRef.nativeElement;
       this.ctx.putImageData(this.restore_array[this.index], 0, 0);
     } else if (this.index === 0) {
       this.clearCanvas();
