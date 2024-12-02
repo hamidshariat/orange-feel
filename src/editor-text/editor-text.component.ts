@@ -187,8 +187,5 @@ export class EditorTextComponent implements AfterViewInit {
   
     this.isPenDropdownOpen = false;
   }
-
-  
-  
   
 }
