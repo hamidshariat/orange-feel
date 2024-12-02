@@ -1,39 +1,39 @@
-// src/styles/theme.scss
+// // src/styles/theme.scss
 
-$light-background: #ffffff;
-$light-text: #333333;
-$light-primary: #6200ea;
-$light-accent: #03dac6;
+// $light-background: #ffffff;
+// $light-text: #333333;
+// $light-primary: #6200ea;
+// $light-accent: #03dac6;
 
-$dark-background: #121212;
-$dark-text: #ffffff;
-$dark-primary: #bb86fc;
-$dark-accent: #03dac6;
+// $dark-background: #121212;
+// $dark-text: #ffffff;
+// $dark-primary: #bb86fc;
+// $dark-accent: #03dac6;
 
-.light-theme {
-  background-color: $light-background;
-  color: $light-text;
-}
+// .light-theme {
+//   background-color: $light-background;
+//   color: $light-text;
+// }
 
-.light-theme button {
-  background-color: $light-primary;
-  color: white;
-}
+// .light-theme button {
+//   background-color: $light-primary;
+//   color: white;
+// }
 
-.light-theme button:hover {
-  background-color: darken($light-primary, 10%);
-}
+// .light-theme button:hover {
+//   background-color: darken($light-primary, 10%);
+// }
 
-.dark-theme {
-  background-color: $dark-background;
-  color: $dark-text;
-}
+// .dark-theme {
+//   background-color: $dark-background;
+//   color: $dark-text;
+// }
 
-.dark-theme button {
-  background-color: $dark-primary;
-  color: white;
-}
+// .dark-theme button {
+//   background-color: $dark-primary;
+//   color: white;
+// }
 
-.dark-theme button:hover {
-  background-color: darken($dark-primary, 10%);
-}
+// .dark-theme button:hover {
+//   background-color: darken($dark-primary, 10%);
+// }

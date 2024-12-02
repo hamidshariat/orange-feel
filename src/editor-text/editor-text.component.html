@@ -1,28 +1,46 @@
 <div class="drawing-container">
   <canvas #canvas
-          (mousedown)="startDrawing($event)"
-          (mousemove)="draw($event)"
-          (mouseup)="stopDrawing($event)"
-          (mouseout)="stopDrawing($event)"
-          (touchstart)="startDrawing($event)"
-          (touchmove)="draw($event)"
-          (touchend)="stopDrawing($event)"
-          (touchcancel)="stopDrawing($event)"
+
   ></canvas>
 </div>
 
 <div class="controls">
-  <button (click)="undoLast()">Undo</button>
-  <button (click)="redoLast()" title="Redo">Redo</button>
-  <button (click)="setTool('pen')">Pen</button>
-  <button (click)="setTool('eraser')">Eraser</button>
+  <!-- دکمه‌ها -->
+  <button (click)="clearCanvas()"><mat-icon>delete</mat-icon></button>
+  <button (click)="undoLast()"><mat-icon>undo</mat-icon></button>
+  <button (click)="redoLast()"><mat-icon>redo</mat-icon></button>
+
+  <!-- دراپ‌داون برای قلم‌ها -->
+  <div class="dropdown" [class.open]="isPenDropdownOpen">
+    <button (click)="togglePenDropdown()"><mat-icon>edit</mat-icon></button>
+    <ul class="dropdown-menu">
+      <li *ngFor="let pen of penTypes" (click)="setPenType(pen)">
+        <mat-icon>
+          {{
+            pen.name === 'Pencil'
+              ? 'create'
+              : pen.name === 'Marker'
+              ? 'brush'
+              : pen.name === 'Highlighter'
+              ? 'highlighter'
+              : 'format_paint'
+          }}
+        </mat-icon>
+        {{ pen.name }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- ابزارهای دیگر -->
+  <button (click)="setTool('eraser')">
+    <mat-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
+        <path
+          d="M690-240h190v80H610l80-80Zm-500 80-85-85q-23-23-23.5-57t22.5-58l440-456q23-24 56.5-24t56.5 23l199 199q23 23 23 57t-23 57L520-160H190Zm296-80 314-322-198-198-442 456 64 64h262Zm-6-240Z"
+        />
+      </svg>
+    </mat-icon>
+  </button>
   <input type="color" (change)="changeColor($event)" />
-  <input
-    class="pen-range"
-    type="range"
-    [value]="size"
-    (input)="changeSize($event)"
-    min="1"
-    max="50"
-  />
+  <input class="pen-range" type="range" [value]="size" (input)="changeSize($event)" min="1" max="50" />
 </div>
